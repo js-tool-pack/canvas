@@ -20,7 +20,7 @@ export default defineConfig({
   // mfsu: true, // windows 系统开启该选项会启动不了
   outputPath: 'docs-dist',
   themeConfig: {
-    name: 'react-ui',
+    name: 'canvas',
     showLineNum: true,
     github: pkg.repository.url.replace(/^git\+|\.git$/g, ''),
     // 目前的dumi-theme-antd-style主题不支持从这配置，已移动到.dumi/theme/slots/Footer/index.tsx配置

@@ -1,5 +1,5 @@
 {
-  "name": "dumi-monorepo-starter",
+  "name": "canvas",
   "version": "1.0.0",
   "description": "dumi monorepo 快速启动模板",
   "main": "index.js",
@@ -10,6 +10,7 @@
     "internal/*"
   ],
   "scripts": {
+    "project:init": "tsx scripts/init.ts",
     "play:dev": "pnpm -C internal/playground start",
     "build:rollup": "tsx scripts/build.ts -t",
     "eject": "react-scripts eject",
@@ -126,7 +127,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mengxinssfd/dumi-monorepo-starter.git"
+    "url": "https://github.com/js-tool-pack/canvas.git"
   },
   "keywords": [
     "dumi",

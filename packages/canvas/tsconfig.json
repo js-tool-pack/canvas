@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "target": "esnext",
+    "module": "ESNext",
+    "paths": {
+      "@pkg/*": ["../../packages/*/src"],
+      "~/*": ["./src/*"],
+      "@tool-pack/spring-ui": ["../../packages/spring-ui/src"]
+    }
+  },
+  "include": ["./", "../../raw-loader.d.ts"],
+  "exclude": ["dist"]
+}

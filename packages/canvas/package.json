@@ -1,0 +1,67 @@
+{
+  "version": "0.0.1",
+  "name": "@tool-pack/canvas",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "sideEffects": false,
+  "scripts": {
+    "rm:dist": "rimraf ./dist",
+    "build:this": "tsc -p tsconfig.json",
+    "build": "pnpm rm:dist && pnpm build:this",
+    "check:ts": "tsc --noEmit -p tsconfig.json",
+    "test:cli": "react-scripts test",
+    "test": "react-scripts test --watchAll=false"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./dist/index.cjs.js",
+        "default": "./dist/index.es.js"
+      },
+      "require": "./dist/index.cjs.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "buildOptions": {
+    "name": "ToolPackReactUI",
+    "scss": true,
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/**/*.(spec|test).(ts|tsx)"
+    ],
+    "moduleNameMapper": {
+      "^@pkg/(.+)$": "<rootDir>/../../packages/$1/src",
+      "^~/(.+)$": "<rootDir>/src/$1"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/js-tool-pack/canvas.git"
+  },
+  "keywords": [
+    "dumi",
+    "template"
+  ],
+  "author": "DYH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mengxinssfd/dumi-monorepo-starter/issues"
+  },
+  "homepage": "https://github.com/mengxinssfd/dumi-monorepo-starter#readme"
+}
