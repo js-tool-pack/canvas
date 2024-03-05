@@ -31,17 +31,17 @@ export default defineConfig({
       // 组件库包名，可以从 package.json 中引入名称
       pkg: pkgName,
       // 匹配路由，默认为 /api 或 /components
-      match: ['/components'],
+      match: ['/canvas'],
       // github 会匹配 themeConfig.github 字段
-      sourceUrl: `{github}/tree/main/packages/components/src/{atomId.kebab}/index.ts`,
-      docUrl: `{github}/tree/main/packages/components/src/{atomId.kebab}/index.{locale}.md`,
+      sourceUrl: `{github}/tree/main/packages/canvas/src/{atomId.kebab}/index.ts`,
+      docUrl: `{github}/tree/main/packages/canvas/src/{atomId.kebab}/index.{locale}.md`,
     },
   },
   // apiParser: {},
   resolve: {
-    // atomDirs: [{ type: 'component', dir: 'packages/components/src' }],
+    atomDirs: [{ type: 'canvas', dir: 'packages/canvas/src' }],
     // 配置入口文件路径，API 解析将从这里开始
-    // entryFile: './packages/react-ui/src/index.ts',
+    // entryFile: './packages/canvas/src/index.ts',
   },
   // 在子包中寻找，优先定向到 libs 文件夹
   monorepoRedirect: {

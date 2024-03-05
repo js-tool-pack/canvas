@@ -1,7 +1,7 @@
 ---
 hero:
-  title: 'react-ui'
-  description: description
+  title: '@tool-pack/canvas'
+  description: 用写 dom 的思路去画 canvas 并交互
   actions:
     - text: 开始使用
       link: /guide

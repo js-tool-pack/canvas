@@ -6,10 +6,9 @@
     "module": "ESNext",
     "paths": {
       "@pkg/*": ["../../packages/*/src"],
-      "~/*": ["./src/*"],
-      "@tool-pack/spring-ui": ["../../packages/spring-ui/src"]
+      "@tool-pack/canvas": ["./src/*"],
+      "~/*": ["./src/*"]
     }
   },
-  "include": ["./", "../../raw-loader.d.ts"],
   "exclude": ["dist"]
 }

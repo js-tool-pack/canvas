@@ -42,6 +42,7 @@
     "jsx": "react-jsx",
     "paths": {
       "@pkg/*": ["./packages/*/src"],
+      "@tool-pack/canvas": ["./packages/canvas/src"],
       "@@/*": [".dumi/tmp/*"]
     }
   },

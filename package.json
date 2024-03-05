@@ -1,5 +1,5 @@
 {
-  "name": "canvas",
+  "name": "@tool-pack/canvas-monorepo",
   "version": "1.0.0",
   "description": "dumi monorepo 快速启动模板",
   "main": "index.js",
@@ -136,7 +136,7 @@
   "author": "DYH",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mengxinssfd/dumi-monorepo-starter/issues"
+    "url": "https://github.com/js-tool-pack/canvas/issues"
   },
-  "homepage": "https://github.com/mengxinssfd/dumi-monorepo-starter#readme"
+  "homepage": "https://github.com/js-tool-pack/canvas#readme"
 }

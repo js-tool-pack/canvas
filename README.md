@@ -1,2 +1,3 @@
-# dumi-monorepo-starter
-dumi monorepo 快速启动模板
+# @tool-pack/canvas
+
+用写 dom 的思路去画 canvas
