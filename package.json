@@ -1,6 +1,6 @@
 {
   "name": "@tool-pack/canvas-monorepo",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "dumi monorepo 快速启动模板",
   "main": "index.js",
   "private": true,
@@ -10,8 +10,10 @@
     "internal/*"
   ],
   "scripts": {
+    "test": "pnpm -C packages/core test",
     "project:init": "tsx scripts/init.ts",
     "play:dev": "pnpm -C internal/playground start",
+    "build": "pnpm -C packages/canvas build",
     "build:rollup": "tsx scripts/build.ts -t",
     "eject": "react-scripts eject",
     "check:lint": "eslint \"**/*.{ts,tsx}\"",

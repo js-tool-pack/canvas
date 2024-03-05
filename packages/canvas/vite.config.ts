@@ -8,7 +8,7 @@ function getBanner(format: string) {
   const date = new Date();
   return (
     '/*!\n' +
-    ` * ToolPackReactUI(${pkg.name}) v${pkg.version}\n` +
+    ` * ${pkg.buildOptions.name}(${pkg.name}) v${pkg.version}\n` +
     ` * Author: ${pkg.author}\n` +
     ` * Documentation: ${pkg.homepage}\n` +
     ` * License: ${pkg.license}\n` +
@@ -31,13 +31,9 @@ export default defineConfig((): UserConfig => {
       rollupOptions: {
         output: [
           {
-            globals: {
-              'react-dom': 'ReactDom',
-              react: 'React',
-            },
             entryFileNames: '[name].iife.js',
+            name: pkg.buildOptions.name,
             banner: getBanner('iife'),
-            name: 'ToolPackReactUI',
             format: 'iife',
           },
           {
@@ -52,7 +48,6 @@ export default defineConfig((): UserConfig => {
             format: 'cjs',
           },
         ],
-        external: ['react', 'react-dom'],
       },
       outDir: resolve(__dirname, './dist'),
       lib: { entry: entryPath },

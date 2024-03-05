@@ -6,7 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "rm:dist": "rimraf ./dist",
-    "build": "npm run build:vite && npm run build:dts && npm run build:scss && npm run build:postcss && npm run build:locale",
+    "build": "npm run build:vite && npm run build:dts",
     "build:vite": "vite build",
     "build:dts": "tsc -p ./tsconfig.json --emitDeclarationOnly && tsc-alias -p ./tsconfig.json && rollup -c ./rollup.dts.config.js",
     "check:ts": "tsc --noEmit -p tsconfig.json",
@@ -24,7 +24,7 @@
     "./dist/*": "./dist/*"
   },
   "buildOptions": {
-    "name": "ToolPackReactUI",
+    "name": "ToolPackCanvas",
     "scss": true,
     "formats": [
       "esm-bundler",
