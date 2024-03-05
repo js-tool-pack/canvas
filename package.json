@@ -1,6 +1,6 @@
 {
   "name": "@tool-pack/canvas-monorepo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "dumi monorepo 快速启动模板",
   "main": "index.js",
   "private": true,
