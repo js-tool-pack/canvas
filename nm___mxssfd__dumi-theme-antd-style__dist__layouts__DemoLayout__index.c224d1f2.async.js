@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_tool_pack_canvas_monorepo=self.webpackChunk_tool_pack_canvas_monorepo||[]).push([[969],{49459:function(s,_,o){o.r(_);var n=o(27538),t=o(63500),a=o(11527);_.default=function(){var u=(0,n.pC)();return(0,a.jsx)(t.Z,{children:u})}}}]);
