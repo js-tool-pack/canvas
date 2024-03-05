@@ -31,15 +31,15 @@ export default defineConfig({
       // 组件库包名，可以从 package.json 中引入名称
       pkg: pkgName,
       // 匹配路由，默认为 /api 或 /components
-      match: ['/canvas'],
+      match: ['/core'],
       // github 会匹配 themeConfig.github 字段
-      sourceUrl: `{github}/tree/main/packages/canvas/src/{atomId.kebab}/index.ts`,
-      docUrl: `{github}/tree/main/packages/canvas/src/{atomId.kebab}/index.{locale}.md`,
+      sourceUrl: `{github}/tree/main/packages/core/src/{atomId.kebab}/index.ts`,
+      docUrl: `{github}/tree/main/packages/core/src/{atomId.kebab}/index.{locale}.md`,
     },
   },
   // apiParser: {},
   resolve: {
-    atomDirs: [{ type: 'canvas', dir: 'packages/canvas/src' }],
+    atomDirs: [{ type: 'core', dir: 'packages/core/src' }],
     // 配置入口文件路径，API 解析将从这里开始
     // entryFile: './packages/canvas/src/index.ts',
   },

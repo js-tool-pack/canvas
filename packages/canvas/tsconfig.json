@@ -1,14 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "target": "esnext",
-    "module": "ESNext",
+    "declaration": true,
+    "baseUrl": "./",
+    "rootDir": "../../",
+    "outDir": "./temp/types",
+    "declarationDir": "./temp/types",
     "paths": {
       "@pkg/*": ["../../packages/*/src"],
       "@tool-pack/canvas": ["./src/*"],
       "~/*": ["./src/*"]
     }
   },
-  "exclude": ["dist"]
+  "include": ["./src"],
+  "exclude": ["dist", "vite.config.ts", "internal", "scripts"]
 }

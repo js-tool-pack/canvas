@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "declaration": false,
+    "target": "esnext",
+    "module": "ESNext",
+    "paths": {
+      "@pkg/*": ["../../packages/*/src"],
+      "~/*": ["./src/*"],
+      "@tool-pack/canvas": ["../../packages/canvas/src"]
+    }
+  },
+  "exclude": ["dist"]
+}

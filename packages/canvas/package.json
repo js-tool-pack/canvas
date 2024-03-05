@@ -6,8 +6,9 @@
   "sideEffects": false,
   "scripts": {
     "rm:dist": "rimraf ./dist",
-    "build:this": "tsc -p tsconfig.json",
-    "build": "pnpm rm:dist && pnpm build:this",
+    "build": "npm run build:vite && npm run build:dts && npm run build:scss && npm run build:postcss && npm run build:locale",
+    "build:vite": "vite build",
+    "build:dts": "tsc -p ./tsconfig.json --emitDeclarationOnly && tsc-alias -p ./tsconfig.json && rollup -c ./rollup.dts.config.js",
     "check:ts": "tsc --noEmit -p tsconfig.json",
     "test:cli": "react-scripts test",
     "test": "react-scripts test --watchAll=false"
