@@ -29,5 +29,6 @@ const ignores = ['docs/guide/css-tree-shaking.tsx'];
  */
 function joinImportCss(content: string, filename: string): string {
   if (ignores.includes(filename)) return content;
-  return 'import "@tool-pack/react-ui/dist/index.css";\n' + content;
+  // return 'import "@tool-pack/react-ui/dist/index.css";\n' + content;
+  return content;
 }

@@ -1,10 +1,13 @@
 /**
  * title: 基础用法
- * description: 用操作 dom 的方式操作 canvas。
  */
 
 import { Rectangle, Renderer } from '@tool-pack/canvas';
 import React, { useEffect, useRef } from 'react';
+
+/**
+ * 用操作 dom 的方式操作 canvas。
+ */
 
 const App: React.FC = () => {
   const elRef = useRef<HTMLCanvasElement>(null);
