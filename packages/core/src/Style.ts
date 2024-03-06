@@ -4,6 +4,7 @@ import type { DataType } from 'csstype';
 // type CSS = StandardProperties<string | number>;
 export interface Style extends Position, Border {
   backgroundColor?: DataType.Color | string;
+  color: DataType.Color | string;
   height: number;
   zIndex: number;
   width: number;
