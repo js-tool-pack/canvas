@@ -47,7 +47,7 @@ export class Renderer {
     const simulateMouseLeaveEvents = (e: Event): void => {
       (listeningShapeMap.mouseleave || []).forEach((el) => {
         if (enterSet.has(el) && !el.isHit(offScreenCTX, e)) {
-          this.callListenerCallback('mouseleave', el);
+          this.callListenerCallback('mouseleave', el, e);
           enterSet.delete(el);
         }
       });
@@ -57,14 +57,14 @@ export class Renderer {
       // 模拟dom 鼠标移入事件
       (listeningShapeMap.mouseenter || []).forEach((el) => {
         if (!enterSet.has(el) && el.isHit(offScreenCTX, e)) {
-          this.callListenerCallback('mouseenter', el);
+          this.callListenerCallback('mouseenter', el, e);
           enterSet.add(el);
         }
       });
       // 鼠标移入事件
       (listeningShapeMap.mousemove || []).forEach((el) => {
         if (enterSet.has(el) && el.isHit(offScreenCTX, e)) {
-          this.callListenerCallback('mousemove', el);
+          this.callListenerCallback('mousemove', el, e);
         }
       });
       // 模拟dom 鼠标移出事件
@@ -93,7 +93,7 @@ export class Renderer {
     const handler = (e: Event) => {
       lisEls.forEach((el) => {
         if (el.isHit(offScreenCTX, e)) {
-          this.callListenerCallback(type, el);
+          this.callListenerCallback(type, el, e);
         }
       });
     };
@@ -133,11 +133,11 @@ export class Renderer {
     this.canvas.removeEventListener(type, listeningMap[type]!);
     delete listeningMap[type];
   }
-
   add(element: Shape): void {
     element.renderer = this;
     this.shapes.push(element);
     this.shapes.sort((a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex);
+    element.onAppended();
 
     const listen = (el: Shape) => {
       for (const type in el.listener) {
@@ -163,9 +163,22 @@ export class Renderer {
     // 双缓冲
     ctx.drawImage(this.offScreenCanvas, 0, 0);
   }
-  callListenerCallback(type: EventType, shape: Shape): void {
+
+  addNativeEventListener<K extends keyof GlobalEventHandlersEventMap>(
+    type: K,
+    callback: (ev: HTMLElementEventMap[K]) => void,
+  ) {
+    this.canvas.addEventListener(type, callback);
+  }
+  callListenerCallback(type: EventType, shape: Shape, ev: Event): void {
     shape.listener[type]?.forEach((callback) => {
-      callback.call(shape);
+      callback.call(shape, ev);
     });
+  }
+  removeNativeEventListener(
+    type: keyof GlobalEventHandlersEventMap,
+    cb: Function,
+  ) {
+    this.canvas.removeEventListener(type, cb as any);
   }
 }
