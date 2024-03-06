@@ -6,6 +6,7 @@
     "baseUrl": "./",
     "types": ["vite/client"],
     "paths": {
+      "~/*": ["./packages/core/src/*"],
       "@pkg/*": ["./packages/*/src"],
       "@tool-pack/canvas": ["./packages/canvas/src"],
       "@@/*": [".dumi/tmp/*"]
