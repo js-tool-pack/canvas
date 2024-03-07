@@ -108,6 +108,9 @@ export abstract class Graphics {
   remove() {
     this.parent?.removeChild(this);
   }
+  update() {
+    this.renderer?.render();
+  }
   abstract drawPath(ctx: CanvasRenderingContext2D, style: Style): void;
   abstract render(ctx: CanvasRenderingContext2D): void;
 }
