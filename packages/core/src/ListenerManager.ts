@@ -71,7 +71,7 @@ export class ListenerManager {
     )
       return;
 
-    const handler = (e: Event) => {
+    const handler = (e: Event): void => {
       lisEls.forEach((el) => {
         if (el.isHit(offScreenCTX, e)) {
           this.callListenerCallback(type, el, e);
@@ -108,7 +108,7 @@ export class ListenerManager {
       this.clearListenerOfShape(e);
     });
   }
-  clearAll() {
+  clearAll(): void {
     const map = this.listeningMap;
     for (const type in map) {
       this.canvas.removeEventListener(type, map[type as keyof typeof map]!);

@@ -13,7 +13,7 @@ export class ShapeManager {
     this.shapes.sort((a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex);
     element.onAppended();
 
-    const listen = (el: Shape) => {
+    const listen = (el: Shape): void => {
       for (const type in el.listener) {
         this.listenerManager.addEventListener(
           type as keyof GlobalEventHandlersEventMap,

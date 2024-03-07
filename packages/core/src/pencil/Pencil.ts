@@ -5,7 +5,7 @@ import { Style } from '~/Style';
 
 // penmanship
 export class Pencil extends Shape {
-  private addCanvasListener = (_e: MouseEvent) => {
+  private addCanvasListener = (_e: MouseEvent): void => {
     const { renderer } = this;
     if (!renderer) return;
 
@@ -22,29 +22,26 @@ export class Pencil extends Shape {
       renderer.render();
     };
     const release = () => {
-      renderer.removeNativeEventListener('mousemove', write);
-      renderer.removeNativeEventListener('mouseup', release);
-      renderer.removeNativeEventListener('mouseout', release);
+      renderer.canvasOff('mousemove', write);
+      renderer.canvasOff('mouseup', release);
+      renderer.canvasOff('mouseout', release);
     };
-    renderer.addNativeEventListener('mousemove', write);
-    renderer.addNativeEventListener('mouseup', release);
-    renderer.addNativeEventListener('mouseout', release);
+    renderer.canvasOn('mousemove', write);
+    renderer.canvasOn('mouseup', release);
+    renderer.canvasOn('mouseout', release);
   };
-  override onRemoved(): void {
-    this.renderer?.removeNativeEventListener(
-      'mousedown',
-      this.addCanvasListener,
-    );
-    super.onRemoved();
-  }
-  override onAppended(): void {
-    this.renderer?.addNativeEventListener('mousedown', this.addCanvasListener);
-    super.onAppended();
-  }
   clear(): void {
     this.children.forEach((child) => child.onRemoved());
     this.children.length = 0;
     this.renderer?.render();
+  }
+  override onAppended(): void {
+    this.renderer?.canvasOn('mousedown', this.addCanvasListener);
+    super.onAppended();
+  }
+  override onRemoved(): void {
+    this.renderer?.canvasOff('mousedown', this.addCanvasListener);
+    super.onRemoved();
   }
   override drawPath(_ctx: CanvasRenderingContext2D, _style: Style): void {}
   override render(_ctx: CanvasRenderingContext2D): void {}

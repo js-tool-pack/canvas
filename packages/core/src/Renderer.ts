@@ -48,32 +48,25 @@ export class Renderer {
     // 双缓冲
     ctx.drawImage(this.offScreenCanvas, 0, 0);
   }
-  addNativeEventListener<K extends keyof GlobalEventHandlersEventMap>(
+  canvasOn<K extends keyof GlobalEventHandlersEventMap>(
     type: K,
     callback: (ev: HTMLElementEventMap[K]) => void,
   ) {
     this.canvas.addEventListener(type, callback);
   }
-  removeNativeEventListener(
-    type: keyof GlobalEventHandlersEventMap,
-    cb: Function,
-  ) {
+  canvasOff(type: keyof GlobalEventHandlersEventMap, cb: Function) {
     this.canvas.removeEventListener(type, cb as any);
   }
-  removeEventListener(
-    type: keyof GlobalEventHandlersEventMap,
-    el: Shape,
-  ): void {
+  off(type: keyof GlobalEventHandlersEventMap, el: Shape): void {
     this.listenerManager.removeEventListener(type, el);
   }
-  addEventListener(type: keyof GlobalEventHandlersEventMap, el: Shape): void {
+  on(type: keyof GlobalEventHandlersEventMap, el: Shape): void {
     this.listenerManager.addEventListener(type, el);
   }
   destroy(): void {
     this.listenerManager.clearAll();
     this.shapeManager.clear();
   }
-
   add(element: Shape): void {
     this.shapeManager.add(element, this);
   }

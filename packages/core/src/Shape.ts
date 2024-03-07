@@ -36,7 +36,7 @@ export abstract class Shape {
     const list: Array<ListenerCB> = this.listener[type] || [];
     list.push(callback as ListenerCB);
     this.listener[type] = list;
-    this.renderer?.addEventListener(type, this);
+    this.renderer?.on(type, this);
   }
 
   appendChild(child: Shape): void {
@@ -49,16 +49,7 @@ export abstract class Shape {
       (a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex,
     );
   }
-  removeEventListener(
-    type: keyof GlobalEventHandlersEventMap,
-    callback: (this: this) => void,
-  ): void {
-    const list = this.listener[type] || [];
-    const index = list.indexOf(callback);
-    list.splice(index, 1);
-    this.renderer?.removeEventListener(type, this);
-  }
-  handleStyle() {
+  handleStyle(): void {
     this.computedStyle = Object.assign(
       {
         position: 'static',
@@ -79,6 +70,15 @@ export abstract class Shape {
     child.onRemoved();
     child.renderer = null;
     child.parent = null;
+  }
+  removeEventListener(
+    type: keyof GlobalEventHandlersEventMap,
+    callback: (this: this) => void,
+  ): void {
+    const list = this.listener[type] || [];
+    const index = list.indexOf(callback);
+    list.splice(index, 1);
+    this.renderer?.off(type, this);
   }
   isHit(ctx: CanvasRenderingContext2D, event: Event): boolean {
     const x = (event as MouseEvent).offsetX || 0;

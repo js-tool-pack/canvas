@@ -27,7 +27,7 @@ export class Penmanship extends Shape {
     ctx.lineWidth = style.width;
     ctx.stroke();
   }
-  write(point: Point) {
+  write(point: Point): void {
     this.points.push(point);
   }
 }
