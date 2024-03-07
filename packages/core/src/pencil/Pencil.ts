@@ -1,10 +1,10 @@
 // import type { DataType } from 'csstype';
 import { Penmanship } from '~/pencil/Penmanship';
-import { Shape } from '~/Shape';
+import { Graphics } from '~/Graphics';
 import { Style } from '~/Style';
 
 // penmanship
-export class Pencil extends Shape {
+export class Pencil extends Graphics {
   private addCanvasListener = (_e: MouseEvent): void => {
     const { renderer } = this;
     if (!renderer) return;

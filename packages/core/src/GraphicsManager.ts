@@ -1,19 +1,21 @@
 import { ListenerManager } from '~/ListenerManager';
 import { Renderer } from '~/Renderer';
-import { Shape } from '~/Shape';
+import { Graphics } from '~/Graphics';
 
-export class ShapeManager {
-  private readonly shapes: Shape[] = [];
+export class GraphicsManager {
+  private readonly graphicsList: Graphics[] = [];
 
   constructor(private readonly listenerManager: ListenerManager) {}
 
-  add(element: Shape, renderer: Renderer) {
+  add(element: Graphics, renderer: Renderer) {
     element.renderer = renderer;
-    this.shapes.push(element);
-    this.shapes.sort((a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex);
+    this.graphicsList.push(element);
+    this.graphicsList.sort(
+      (a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex,
+    );
     element.onAppended();
 
-    const listen = (el: Shape): void => {
+    const listen = (el: Graphics): void => {
       for (const type in el.listener) {
         this.listenerManager.addEventListener(
           type as keyof GlobalEventHandlersEventMap,
@@ -24,19 +26,19 @@ export class ShapeManager {
     };
     listen(element);
   }
-  remove(element: Shape): void {
-    const c = this.shapes;
+  remove(element: Graphics): void {
+    const c = this.graphicsList;
     const index = c.findIndex((i) => i === element);
     if (index === -1) return;
-    this.shapes.splice(index, 1);
+    this.graphicsList.splice(index, 1);
     element.renderer = null;
 
-    this.listenerManager.clearListenerOfShape(element);
+    this.listenerManager.clearListenerOfGraphics(element);
   }
   render(ctx: CanvasRenderingContext2D): void {
-    this.shapes.forEach((c) => c.renderAll(ctx));
+    this.graphicsList.forEach((c) => c.renderAll(ctx));
   }
   clear(): void {
-    this.shapes.length = 0;
+    this.graphicsList.length = 0;
   }
 }

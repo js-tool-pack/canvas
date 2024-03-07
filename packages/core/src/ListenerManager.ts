@@ -1,32 +1,36 @@
-import { Shape } from '~/Shape';
+import { Graphics } from '~/Graphics';
 
 type EventType = keyof GlobalEventHandlersEventMap;
 
 export class ListenerManager {
-  private readonly listeningMap: Partial<
-    Record<EventType, (e: Event) => void>
+  private readonly eventGraphicsMap: Partial<
+    Record<EventType, Array<Graphics>>
   > = {};
-  private readonly listeningShapeMap: Partial<Record<EventType, Array<Shape>>> =
+  private readonly eventMap: Partial<Record<EventType, (e: Event) => void>> =
     {};
   constructor(
     private readonly canvas: HTMLCanvasElement,
     private readonly ctx: CanvasRenderingContext2D,
   ) {}
 
-  private callListenerCallback(type: EventType, shape: Shape, ev: Event): void {
-    shape.listener[type]?.forEach((callback) => {
-      callback.call(shape, ev);
+  private callListenerCallback(
+    type: EventType,
+    graphics: Graphics,
+    ev: Event,
+  ): void {
+    graphics.listener[type]?.forEach((callback) => {
+      callback.call(graphics, ev);
     });
   }
   /**
    * 模拟鼠标事件
    */
   simulateMouseEvents(): void {
-    const enterSet = new Set<Shape>();
-    const { listeningShapeMap, ctx: offScreenCTX } = this;
+    const enterSet = new Set<Graphics>();
+    const { ctx: offScreenCTX, eventGraphicsMap } = this;
 
     const simulateMouseLeaveEvents = (e: Event): void => {
-      (listeningShapeMap.mouseleave || []).forEach((el) => {
+      (eventGraphicsMap.mouseleave || []).forEach((el) => {
         if (enterSet.has(el) && !el.isHit(offScreenCTX, e)) {
           this.callListenerCallback('mouseleave', el, e);
           enterSet.delete(el);
@@ -34,16 +38,16 @@ export class ListenerManager {
       });
     };
 
-    this.listeningMap.mousemove = (e) => {
+    this.eventMap.mousemove = (e) => {
       // 模拟dom 鼠标移入事件
-      (listeningShapeMap.mouseenter || []).forEach((el) => {
+      (eventGraphicsMap.mouseenter || []).forEach((el) => {
         if (!enterSet.has(el) && el.isHit(offScreenCTX, e)) {
           this.callListenerCallback('mouseenter', el, e);
           enterSet.add(el);
         }
       });
       // 鼠标移入事件
-      (listeningShapeMap.mousemove || []).forEach((el) => {
+      (eventGraphicsMap.mousemove || []).forEach((el) => {
         if (enterSet.has(el) && el.isHit(offScreenCTX, e)) {
           this.callListenerCallback('mousemove', el, e);
         }
@@ -51,22 +55,22 @@ export class ListenerManager {
       // 模拟dom 鼠标移出事件
       simulateMouseLeaveEvents(e);
     };
-    this.canvas.addEventListener('mousemove', this.listeningMap.mousemove);
+    this.canvas.addEventListener('mousemove', this.eventMap.mousemove);
 
     // 有时候移动太快了会漏掉 mouseleave
-    this.listeningMap.mouseleave = simulateMouseLeaveEvents;
-    this.canvas.addEventListener('mouseleave', this.listeningMap.mouseleave);
+    this.eventMap.mouseleave = simulateMouseLeaveEvents;
+    this.canvas.addEventListener('mouseleave', this.eventMap.mouseleave);
   }
-  addEventListener(type: EventType, el: Shape): void {
-    const { listeningShapeMap, ctx: offScreenCTX, listeningMap } = this;
+  addEventListener(type: EventType, el: Graphics): void {
+    const { ctx: offScreenCTX, eventGraphicsMap, eventMap } = this;
 
-    const lisEls = listeningShapeMap[type] || [];
+    const lisEls = eventGraphicsMap[type] || [];
     if (lisEls.includes(el)) return;
     lisEls.push(el);
 
-    listeningShapeMap[type] = lisEls;
+    eventGraphicsMap[type] = lisEls;
     if (
-      listeningMap[type] ||
+      eventMap[type] ||
       (['mouseenter', 'mousemove', 'mouseleave'] as EventType[]).includes(type)
     )
       return;
@@ -78,38 +82,38 @@ export class ListenerManager {
         }
       });
     };
-    listeningMap[type] = handler;
+    eventMap[type] = handler;
     this.canvas.addEventListener(type, handler);
   }
-  removeEventListener(type: EventType, el: Shape): void {
-    const { listeningShapeMap, listeningMap } = this;
+  removeEventListener(type: EventType, el: Graphics): void {
+    const { eventGraphicsMap, eventMap } = this;
 
-    const obj = listeningMap[type];
+    const obj = eventMap[type];
     if (!obj) return;
 
-    const listeners = listeningShapeMap[type] || [];
+    const listeners = eventGraphicsMap[type] || [];
     const index = listeners.indexOf(el);
     if (index === -1) return;
 
     listeners.splice(index, 1);
     if (listeners.length !== 0) return;
 
-    this.canvas.removeEventListener(type, listeningMap[type]!);
-    delete listeningMap[type];
+    this.canvas.removeEventListener(type, eventMap[type]!);
+    delete eventMap[type];
   }
-  clearListenerOfShape(shape: Shape): void {
-    for (const type in shape.listener) {
+  clearListenerOfGraphics(graphics: Graphics): void {
+    for (const type in graphics.listener) {
       this.removeEventListener(
         type as keyof GlobalEventHandlersEventMap,
-        shape,
+        graphics,
       );
     }
-    shape.children.forEach((e) => {
-      this.clearListenerOfShape(e);
+    graphics.children.forEach((e) => {
+      this.clearListenerOfGraphics(e);
     });
   }
   clearAll(): void {
-    const map = this.listeningMap;
+    const map = this.eventMap;
     for (const type in map) {
       this.canvas.removeEventListener(type, map[type as keyof typeof map]!);
     }

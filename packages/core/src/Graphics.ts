@@ -6,12 +6,12 @@ type ListenerCB = (
   ev: HTMLElementEventMap[keyof GlobalEventHandlersEventMap],
 ) => void;
 
-export abstract class Shape {
+export abstract class Graphics {
   listener: Partial<Record<keyof GlobalEventHandlersEventMap, ListenerCB[]>> =
     {};
   renderer: Renderer | null = null;
-  parent: Shape | null = null;
-  children: Shape[] = [];
+  parent: Graphics | null = null;
+  children: Graphics[] = [];
   computedStyle!: Style;
 
   constructor(public style: Partial<Style> = {}) {
@@ -39,7 +39,7 @@ export abstract class Shape {
     this.renderer?.on(type, this);
   }
 
-  appendChild(child: Shape): void {
+  appendChild(child: Graphics): void {
     if (this.children.includes(child)) return;
     this.children.push(child);
     child.renderer = this.renderer;
@@ -62,7 +62,7 @@ export abstract class Shape {
     );
     this.children.forEach((child) => child.handleStyle());
   }
-  removeChild(child: Shape): void {
+  removeChild(child: Graphics): void {
     const children = this.children;
     const index = children.findIndex((i) => i === child);
     if (index === -1) return;
@@ -102,7 +102,7 @@ export abstract class Shape {
   onRemoved(): void {
     this.children.forEach((child) => child.onRemoved());
   }
-  append(parent: Shape): void {
+  append(parent: Graphics): void {
     parent.appendChild(this);
   }
   remove() {

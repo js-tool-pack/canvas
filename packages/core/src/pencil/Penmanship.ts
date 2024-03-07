@@ -1,11 +1,11 @@
 import type { Point } from '@tool-pack/types';
+import { Graphics } from '~/Graphics';
 import type { Style } from '~/Style';
-import { Shape } from '~/Shape';
 
 /**
  * 笔迹类，用于记录笔的颜色大小以及划过的路线
  */
-export class Penmanship extends Shape {
+export class Penmanship extends Graphics {
   private points: Point[] = [];
 
   override drawPath(ctx: CanvasRenderingContext2D, _style: Style): void {

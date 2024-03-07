@@ -1,13 +1,13 @@
 import { ListenerManager } from '~/ListenerManager';
-import { ShapeManager } from '~/ShapeManager';
-import { Shape } from './Shape';
+import { GraphicsManager } from '~/GraphicsManager';
+import { Graphics } from './Graphics';
 
 export class Renderer {
   private readonly offScreenCTX!: CanvasRenderingContext2D;
   private readonly offScreenCanvas!: HTMLCanvasElement;
   private readonly listenerManager: ListenerManager;
+  private readonly graphicsManager: GraphicsManager;
   private readonly ctx!: CanvasRenderingContext2D;
-  private readonly shapeManager: ShapeManager;
   private readonly canvas!: HTMLCanvasElement;
   readonly height!: number;
   readonly width!: number;
@@ -32,7 +32,7 @@ export class Renderer {
 
     this.listenerManager = new ListenerManager(this.canvas, this.offScreenCTX);
     this.listenerManager.simulateMouseEvents();
-    this.shapeManager = new ShapeManager(this.listenerManager);
+    this.graphicsManager = new GraphicsManager(this.listenerManager);
   }
 
   render(): void {
@@ -43,7 +43,7 @@ export class Renderer {
 
     ctx.clearRect(0, 0, this.width, this.height);
     offScreenCTX.clearRect(0, 0, this.width, this.height);
-    this.shapeManager.render(offScreenCTX);
+    this.graphicsManager.render(offScreenCTX);
 
     // 双缓冲
     ctx.drawImage(this.offScreenCanvas, 0, 0);
@@ -54,23 +54,23 @@ export class Renderer {
   ) {
     this.canvas.addEventListener(type, callback);
   }
+  off(type: keyof GlobalEventHandlersEventMap, el: Graphics): void {
+    this.listenerManager.removeEventListener(type, el);
+  }
   canvasOff(type: keyof GlobalEventHandlersEventMap, cb: Function) {
     this.canvas.removeEventListener(type, cb as any);
   }
-  off(type: keyof GlobalEventHandlersEventMap, el: Shape): void {
-    this.listenerManager.removeEventListener(type, el);
-  }
-  on(type: keyof GlobalEventHandlersEventMap, el: Shape): void {
+  on(type: keyof GlobalEventHandlersEventMap, el: Graphics): void {
     this.listenerManager.addEventListener(type, el);
   }
   destroy(): void {
     this.listenerManager.clearAll();
-    this.shapeManager.clear();
+    this.graphicsManager.clear();
   }
-  add(element: Shape): void {
-    this.shapeManager.add(element, this);
+  add(element: Graphics): void {
+    this.graphicsManager.add(element, this);
   }
-  remove(element: Shape): void {
-    this.shapeManager.remove(element);
+  remove(element: Graphics): void {
+    this.graphicsManager.remove(element);
   }
 }

@@ -1,7 +1,7 @@
-import { Shape } from '../Shape';
-import { Style } from '../Style';
+import { Graphics } from '~/Graphics';
+import { Style } from '~/Style';
 
-export class Rectangle extends Shape {
+export class Rectangle extends Graphics {
   private drawPathWithoutBorder(ctx: CanvasRenderingContext2D): void {
     const style = this.computedStyle;
     const bw = style.borderWidth || 0;
