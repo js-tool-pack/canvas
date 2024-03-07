@@ -2,35 +2,6 @@ import { Graphics } from '~/Graphics';
 import { Style } from '~/Style';
 
 export class Rectangle extends Graphics {
-  private drawPathWithoutBorder(ctx: CanvasRenderingContext2D): void {
-    const style = this.computedStyle;
-    const bw = style.borderWidth || 0;
-    this.drawPath(ctx, {
-      ...style,
-      left: (style.left || 0) + bw / 2,
-      top: (style.top || 0) + bw / 2,
-      height: style.height - bw,
-      width: style.width - bw,
-    });
-  }
-  private renderBorder(ctx: CanvasRenderingContext2D): void {
-    const style = this.computedStyle;
-    if (!style.borderWidth) return;
-
-    this.drawPathWithoutBorder(ctx);
-
-    ctx.lineWidth = style.borderWidth || 0;
-    ctx.strokeStyle = style.borderColor || 'black';
-
-    ctx.stroke();
-  }
-  private renderBackground(ctx: CanvasRenderingContext2D): void {
-    const { computedStyle: style } = this;
-    style.backgroundColor && (ctx.fillStyle = style.backgroundColor);
-    // this.drawPath(ctx, style);
-    this.drawPathWithoutBorder(ctx);
-    ctx.fill();
-  }
   override drawPath(ctx: CanvasRenderingContext2D, style: Style): void {
     let {
       borderRadius: r = 0,
@@ -54,6 +25,37 @@ export class Rectangle extends Graphics {
 
     ctx.roundRect(x, y, w, h, r);
     ctx.closePath();
+  }
+  protected drawPathWithoutBorder(ctx: CanvasRenderingContext2D): void {
+    const style = this.computedStyle;
+    const bw = style.borderWidth || 0;
+    this.drawPath(ctx, {
+      ...style,
+      left: (style.left || 0) + bw / 2,
+      top: (style.top || 0) + bw / 2,
+      height: style.height - bw,
+      width: style.width - bw,
+    });
+  }
+  protected renderBorder(ctx: CanvasRenderingContext2D): void {
+    const style = this.computedStyle;
+    if (!style.borderWidth) return;
+
+    this.drawPathWithoutBorder(ctx);
+
+    ctx.lineWidth = style.borderWidth || 0;
+    ctx.strokeStyle = style.borderColor || 'black';
+
+    ctx.stroke();
+  }
+  protected renderBackground(ctx: CanvasRenderingContext2D): void {
+    const { computedStyle: style } = this;
+    if (!style.backgroundColor) return;
+
+    ctx.fillStyle = style.backgroundColor;
+    // this.drawPath(ctx, style);
+    this.drawPathWithoutBorder(ctx);
+    ctx.fill();
   }
   override render(ctx: CanvasRenderingContext2D): void {
     this.renderBackground(ctx);

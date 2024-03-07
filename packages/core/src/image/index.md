@@ -1,18 +1,16 @@
 ---
 category: Core
-title: Rectangle 矩形
-atomId: Rectangle
+title: Image 图片
+atomId: Image
 nav:
   title: Core
-  order: 2
 demo:
   cols: 2
 group:
-  order: 0
   title: 基础
 ---
 
-Rectangle 矩形
+Image 图片
 
 ## 代码演示
 
