@@ -4,11 +4,11 @@ import { Graphics } from './Graphics';
 
 export class Renderer {
   private readonly offScreenCTX!: CanvasRenderingContext2D;
-  private readonly offScreenCanvas!: HTMLCanvasElement;
   private readonly listenerManager: ListenerManager;
   private readonly graphicsManager: GraphicsManager;
   private readonly ctx!: CanvasRenderingContext2D;
   private readonly canvas!: HTMLCanvasElement;
+  readonly offScreenCanvas!: HTMLCanvasElement;
   readonly height!: number;
   readonly width!: number;
 
