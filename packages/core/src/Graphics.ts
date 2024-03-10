@@ -26,7 +26,7 @@ export abstract class Graphics {
         return obj[prop];
       },
     });
-    this.handleStyle();
+    // this.handleStyle();
   }
 
   addEventListener<K extends keyof GlobalEventHandlersEventMap>(
@@ -44,7 +44,7 @@ export abstract class Graphics {
     this.children.push(child);
     child.renderer = this.renderer;
     child.parent = this;
-    this.handleStyle();
+    if (this.renderer) child.onAppended();
     this.children.sort(
       (a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex,
     );
@@ -97,6 +97,7 @@ export abstract class Graphics {
     });
   }
   onAppended(): void {
+    this.handleStyle();
     this.children.forEach((child) => child.onAppended());
   }
   onRemoved(): void {

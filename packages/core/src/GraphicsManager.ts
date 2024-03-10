@@ -11,7 +11,7 @@ export class GraphicsManager {
     element.renderer = renderer;
     this.graphicsList.push(element);
     this.graphicsList.sort(
-      (a, b) => a.computedStyle.zIndex - b.computedStyle.zIndex,
+      (a, b) => (a.style?.zIndex || 0) - (b.style?.zIndex || 0),
     );
     element.onAppended();
 
