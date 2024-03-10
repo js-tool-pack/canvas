@@ -35,7 +35,7 @@ export class Magnifier extends Graphics {
     const scaledSize = size * scale;
     const x = left - r;
     const y = top - r;
-    const offset = (scaledSize - size) / 2;
+    const offset = (scaledSize - size - borderWidth / 2) / 2;
     ctx.drawImage(
       canvas,
       // 从源图截取

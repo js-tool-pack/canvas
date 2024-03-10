@@ -3,11 +3,11 @@ import { GraphicsManager } from '~/GraphicsManager';
 import { Graphics } from './Graphics';
 
 export class Renderer {
-  private readonly offScreenCTX!: CanvasRenderingContext2D;
   private readonly listenerManager: ListenerManager;
   private readonly graphicsManager: GraphicsManager;
   private readonly ctx!: CanvasRenderingContext2D;
   private readonly canvas!: HTMLCanvasElement;
+  readonly offScreenCTX!: CanvasRenderingContext2D;
   readonly offScreenCanvas!: HTMLCanvasElement;
   readonly height!: number;
   readonly width!: number;
@@ -19,16 +19,13 @@ export class Renderer {
         : canvas;
     if (!canvasEl) throw new Error('canvas can not be empty!');
 
-    const shadowCanvas = document.createElement('canvas');
-    this.width = shadowCanvas.width = canvasEl.width;
-    this.height = shadowCanvas.height = canvasEl.height;
+    this.width = canvasEl.width;
+    this.height = canvasEl.height;
 
-    this.offScreenCTX = shadowCanvas.getContext(
-      '2d',
-    ) as CanvasRenderingContext2D;
-    this.ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
-    this.offScreenCanvas = shadowCanvas;
     this.canvas = canvasEl;
+    this.ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
+
+    [this.offScreenCanvas, this.offScreenCTX] = this.cloneCanvas();
 
     this.listenerManager = new ListenerManager(this.canvas, this.offScreenCTX);
     this.listenerManager.simulateMouseEvents();
@@ -47,6 +44,16 @@ export class Renderer {
 
     // 双缓冲
     ctx.drawImage(this.offScreenCanvas, 0, 0);
+  }
+  cloneCanvas(): [
+    canvas: HTMLCanvasElement,
+    context: CanvasRenderingContext2D,
+  ] {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.canvas.width;
+    canvas.height = this.canvas.height;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    return [canvas, ctx];
   }
   canvasOn<K extends keyof GlobalEventHandlersEventMap>(
     type: K,

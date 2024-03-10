@@ -2,9 +2,8 @@ import type { DataType } from 'csstype';
 // import type { StandardProperties, DataType } from 'csstype';
 
 // type CSS = StandardProperties<string | number>;
-export interface Style extends Position, Border {
+export interface Style extends Position, Border, Text {
   backgroundColor?: DataType.Color | string;
-  color: DataType.Color | string;
   height: number;
   zIndex: number;
   width: number;
@@ -23,4 +22,15 @@ interface Border {
   borderColor?: DataType.Color;
   borderRadius?: number;
   borderWidth?: number;
+}
+
+interface Text {
+  textAlign?: 'center' | 'right' | 'start' | 'left' | 'end';
+  fontWeight?: DataType.FontWeightAbsolute | number;
+  fontFamily?: DataType.GenericFamily | string;
+  textBaseline?: CanvasTextBaseline;
+  color: DataType.Color | string;
+  letterSpacing?: string;
+  lineHeight?: number;
+  fontSize?: number;
 }

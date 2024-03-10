@@ -5,3 +5,4 @@ export * from './rectangle';
 export * from './pencil';
 export * from './image';
 export * from './magnifier';
+export * from './text';

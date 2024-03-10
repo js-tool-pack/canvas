@@ -26,8 +26,10 @@ export class Rectangle extends Graphics {
     ctx.roundRect(x, y, w, h, r);
     ctx.closePath();
   }
-  protected drawPathWithoutBorder(ctx: CanvasRenderingContext2D): void {
-    const style = this.computedStyle;
+  protected drawPathWithoutBorder(
+    ctx: CanvasRenderingContext2D,
+    style = this.computedStyle,
+  ): void {
     const bw = style.borderWidth || 0;
     this.drawPath(ctx, {
       ...style,
@@ -37,24 +39,28 @@ export class Rectangle extends Graphics {
       width: style.width - bw,
     });
   }
-  protected renderBorder(ctx: CanvasRenderingContext2D): void {
-    const style = this.computedStyle;
+  protected renderBorder(
+    ctx: CanvasRenderingContext2D,
+    style = this.computedStyle,
+  ): void {
     if (!style.borderWidth) return;
 
-    this.drawPathWithoutBorder(ctx);
+    this.drawPathWithoutBorder(ctx, style);
 
     ctx.lineWidth = style.borderWidth || 0;
     ctx.strokeStyle = style.borderColor || 'black';
 
     ctx.stroke();
   }
-  protected renderBackground(ctx: CanvasRenderingContext2D): void {
-    const { computedStyle: style } = this;
+  protected renderBackground(
+    ctx: CanvasRenderingContext2D,
+    style = this.computedStyle,
+  ): void {
     if (!style.backgroundColor) return;
 
     ctx.fillStyle = style.backgroundColor;
     // this.drawPath(ctx, style);
-    this.drawPathWithoutBorder(ctx);
+    this.drawPathWithoutBorder(ctx, style);
     ctx.fill();
   }
   override render(ctx: CanvasRenderingContext2D): void {
