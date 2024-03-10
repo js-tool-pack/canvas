@@ -3,7 +3,7 @@
  * description: 鼠标点击拖动图片可显示放大效果
  */
 
-import { Magnifier, Renderer, Image } from '@tool-pack/canvas';
+import { Magnifier, Renderer, Image, Text } from '@tool-pack/canvas';
 import React, { useEffect, useRef } from 'react';
 
 const App: React.FC = () => {
@@ -30,7 +30,15 @@ const App: React.FC = () => {
       },
     );
 
+    const text = new Text({
+      textAlign: 'center',
+      fontSize: 16,
+      left: 150,
+      top: 142,
+    });
+    text.content = '点我放大图片';
     renderer.add(img);
+    renderer.add(text);
     renderer.render();
 
     // 交互。放大镜并未内置具体的交互方式，因为不确定具体是要在何时开启放大镜效果
