@@ -9,8 +9,8 @@ type ENV = 'development' | 'production';
 const map: Record<ENV, Parameters<typeof defineConfig>[0]> = {
   development: {},
   production: {
-    // base: '/react-ui/',
-    // publicPath: '/react-ui/',
+    base: '/canvas/',
+    publicPath: '/canvas/',
   },
 };
 const env = process.env['NODE_ENV'] as ENV;
